@@ -1,7 +1,45 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/main.dart';
 
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+  SignUpPage({super.key});
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
+Future<void> signUp(
+  BuildContext context,
+  String email,
+  String password,
+) async {
+  try {
+    UserCredential userCredential =
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          "Sign-up successful! Welcome, ${userCredential.user?.email}",
+        ),
+      ),
+    );
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => Home()),
+    );
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Sign-up failed: $e")),
+    );
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +59,7 @@ class SignUpPage extends StatelessWidget {
                   SizedBox(height: 60),
                   Text(
                     "Sign up to get started!",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                   ),
                   Text("Create an account"),
                 ],
@@ -47,6 +82,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   TextField(
+                    controller: _emailController,
                     decoration: InputDecoration(
                       fillColor: Colors.purpleAccent.withOpacity(0.1),
                       filled: true,
@@ -60,6 +96,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   TextField(
+                    controller: _passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
                       fillColor: Colors.purpleAccent.withOpacity(0.1),
@@ -74,6 +111,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   TextField(
+                    controller: _confirmPasswordController,
                     obscureText: true,
                     decoration: InputDecoration(
                       fillColor: Colors.purpleAccent.withOpacity(0.1),
@@ -91,7 +129,20 @@ class SignUpPage extends StatelessWidget {
 
               // Sign Up Button
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  final email = _emailController.text.trim();
+                  final password = _passwordController.text.trim();
+                  final confirmPassword = _confirmPasswordController.text
+                      .trim();
+                  if (password != confirmPassword) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Passwords do not match")),
+                    );
+                    return;
+                  }
+                  signUp(context, email, password);
+                },
+                
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.purple,
                   padding: const EdgeInsets.symmetric(vertical: 15),

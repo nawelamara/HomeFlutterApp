@@ -31,11 +31,26 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-  curved_labeled_navigation_bar: ^2.0.6 
+  curved_labeled_navigation_bar: ^2.0.6
   carousel_slider: ^5.1.1
+  firebase_auth: ^6.1.2
+  firebase_core: ^4.2.1
+  google_sign_in: ^7.2.0
+  http: ^1.6.0
+
+  # Modern chat UI (already added)
+  flutter_chat_ui: ^1.6.14
+  flutter_chat_types: ^3.6.1
+  google_fonts: ^6.2.1
+  uuid: ^4.5.0
+  mime: ^1.0.5
+
+  # Up-to-date file/image pickers (already upgraded)
+  file_picker: ^8.1.2
+  image_picker: ^1.1.2
+  intl: ^0.19.0                 # Better date/time formatting
+
 
 dev_dependencies:
   flutter_test:
@@ -46,7 +61,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
